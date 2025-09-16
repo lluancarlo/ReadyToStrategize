@@ -1,0 +1,90 @@
+[gd_scene load_steps=11 format=3 uid="uid://bom6akn7t1mm7"]
+
+[ext_resource type="PackedScene" uid="uid://bjbmba0jhmy1c" path="res://components/camera_input_component.tscn" id="2_e2o6t"]
+[ext_resource type="Script" uid="uid://cgqph3ouhnx78" path="res://controllers/mouse_controller.gd" id="2_feb5d"]
+[ext_resource type="PackedScene" uid="uid://ds1vvr4x52xy0" path="res://characters/basic_character.tscn" id="3_feb5d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_80nbo"]
+
+[sub_resource type="Sky" id="Sky_e2o6t"]
+sky_material = SubResource("ProceduralSkyMaterial_80nbo")
+
+[sub_resource type="Environment" id="Environment_feb5d"]
+background_mode = 2
+sky = SubResource("Sky_e2o6t")
+ambient_light_source = 3
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_80nbo"]
+vertices = PackedVector3Array(-9.5, 0.5, -9.5, -9.5, 0.5, 9.5, 9.5, 0.5, 9.5, 9.5, 0.5, -9.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwb40"]
+albedo_color = Color(0, 0.161352, 0.00150419, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_80nbo"]
+material = SubResource("StandardMaterial3D_mwb40")
+size = Vector2(20, 20)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_feb5d"]
+points = PackedVector3Array(-10, 0, -10, -10, 0, 10, 10, 0, -10, 10, 0, 10)
+
+[node name="Game" type="Node"]
+
+[node name="Troops" type="Node" parent="."]
+
+[node name="BasicCharacter" parent="Troops" instance=ExtResource("3_feb5d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05192, 0, 3.51664)
+
+[node name="BasicCharacter2" parent="Troops" instance=ExtResource("3_feb5d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.97089, 0, 6.80877)
+
+[node name="BasicCharacter3" parent="Troops" instance=ExtResource("3_feb5d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.74286, 0, 4.06294)
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_feb5d")
+
+[node name="Terrain" type="Node3D" parent="Environment"]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Environment/Terrain"]
+navigation_mesh = SubResource("NavigationMesh_80nbo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Terrain/NavigationRegion3D"]
+mesh = SubResource("PlaneMesh_80nbo")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Terrain/NavigationRegion3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Terrain/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_feb5d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Gameplay" type="Node" parent="."]
+
+[node name="GUI" type="Control" parent="Gameplay"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MouseController" type="Node" parent="Gameplay/GUI" node_paths=PackedStringArray("selection_box_ui")]
+script = ExtResource("2_feb5d")
+selection_box_ui = NodePath("CanvasLayer/Panel")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Gameplay/GUI/MouseController"]
+
+[node name="Panel" type="Panel" parent="Gameplay/GUI/MouseController/CanvasLayer"]
+
+[node name="MainCamera" type="Node3D" parent="Gameplay"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 7, 10)
+
+[node name="CameraInputComponent" parent="Gameplay/MainCamera" node_paths=PackedStringArray("main_camera") instance=ExtResource("2_e2o6t")]
+main_camera = NodePath("../MainCamera")
+
+[node name="MainCamera" type="Camera3D" parent="Gameplay/MainCamera"]
+unique_name_in_owner = true
