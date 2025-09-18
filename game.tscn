@@ -15,7 +15,7 @@ sky = SubResource("Sky_e2o6t")
 ambient_light_source = 3
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_80nbo"]
-vertices = PackedVector3Array(-9.5, 0.5, -9.5, -9.5, 0.5, 9.5, 9.5, 0.5, 9.5, 9.5, 0.5, -9.5)
+vertices = PackedVector3Array(-49.5, 0.5, -49.5, -49.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwb40"]
@@ -23,10 +23,10 @@ albedo_color = Color(0, 0.161352, 0.00150419, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_80nbo"]
 material = SubResource("StandardMaterial3D_mwb40")
-size = Vector2(20, 20)
+size = Vector2(100, 100)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_feb5d"]
-points = PackedVector3Array(-10, 0, -10, -10, 0, 10, 10, 0, -10, 10, 0, 10)
+points = PackedVector3Array(-50, 0, -50, -50, 0, 50, 50, 0, -50, 50, 0, 50)
 
 [node name="Game" type="Node"]
 

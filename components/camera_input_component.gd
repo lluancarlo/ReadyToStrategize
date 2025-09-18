@@ -5,7 +5,7 @@ class_name CameraInputComponent
 @export var horizontal_speed : float = 0.1
 @export var vertical_speed : float = 0.1
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var horizontal = Input.get_axis("left", "right")
 	var vertical = Input.get_axis("up", "down")
 	
